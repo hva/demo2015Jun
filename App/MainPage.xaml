@@ -1,0 +1,37 @@
+﻿<Page
+    x:Class="App.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:App"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <ListView x:Name="ListView">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid MaxWidth="400">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{Binding TeamHome}" />
+                        <TextBlock Grid.Column="1" Text="{Binding ScoreHome}" HorizontalAlignment="Right" />
+                        <TextBlock Grid.Column="2" Text=":" />
+                        <TextBlock Grid.Column="3" Text="{Binding ScoreAway}" />
+                        <TextBlock Grid.Column="4" Text="{Binding TeamAway}" HorizontalAlignment="Right" />
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+    </Grid>
+</Page>
