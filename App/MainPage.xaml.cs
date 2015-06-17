@@ -1,15 +1,20 @@
 ﻿using Microsoft.AspNet.SignalR.Client;
-using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using WebApplication.Models;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.Web.Http;
 
 namespace App
 {
     public sealed partial class MainPage : Page
     {
+        private ObservableCollection<Match> collection;
+        private int[] ids;
+
         public MainPage()
         {
             InitializeComponent();
@@ -28,12 +33,27 @@ namespace App
             //}
 
             var connection = new HubConnection(host);
-
             var proxy = connection.CreateHubProxy("MatchesHub");
-
             await connection.Start();
 
-            await proxy.Invoke("Hello");
+            var matches = await proxy.Invoke<List<Match>>("GetMatches");
+            collection = new ObservableCollection<Match>(matches);
+            ListView.ItemsSource = collection;
+            ids = matches.Select(x => x.Id).ToArray();
+
+            proxy.On<Match>("OnMatchUpdated", OnMatchUpdated);
+        }
+
+        private async void OnMatchUpdated(Match match)
+        {
+            //Debug.WriteLine(JsonConvert.SerializeObject(match));
+
+            var index = Array.IndexOf(ids, match.Id);
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                collection.RemoveAt(index);
+                collection.Insert(index, match);
+            });
         }
     }
 }

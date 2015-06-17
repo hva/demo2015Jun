@@ -12,11 +12,16 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid MaxWidth="400">
+                        <Grid.Resources>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="FontSize" Value="24" />
+                            </Style>
+                        </Grid.Resources>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
-                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="30" />
                             <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="30" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="{Binding TeamHome}" />

@@ -119,7 +119,6 @@
     </Compile>
     <Compile Include="MatchesHub.cs" />
     <Compile Include="Models\Match.cs" />
-    <Compile Include="Models\MatchesList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
