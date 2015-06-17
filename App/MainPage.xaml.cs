@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNet.SignalR.Client;
+using Newtonsoft.Json;
 using System;
 using WebApplication.Models;
 using Windows.UI.Xaml;
@@ -17,13 +18,22 @@ namespace App
 
         private async void OnLoaded(object sender, RoutedEventArgs e)
         {
-            using(var client = new HttpClient())
-            {
-                var uri = new Uri("http://localhost:49527/api/matches", UriKind.Absolute);
-                var str = await client.GetStringAsync(uri);
-                var data = JsonConvert.DeserializeObject<Match[]>(str);
-                ListView.ItemsSource = data;
-            }
+            const string host = "http://localhost:49527";
+            //using (var client = new HttpClient())
+            //{
+            //    var uri = new Uri(host + "/api/matches", UriKind.Absolute);
+            //    var str = await client.GetStringAsync(uri);
+            //    var data = JsonConvert.DeserializeObject<Match[]>(str);
+            //    ListView.ItemsSource = data;
+            //}
+
+            var connection = new HubConnection(host);
+
+            var proxy = connection.CreateHubProxy("MatchesHub");
+
+            await connection.Start();
+
+            await proxy.Invoke("Hello");
         }
     }
 }
